@@ -99,6 +99,13 @@ Refer to Coding guidelines to check whether the code matches the guidelines.
 - `.claude/skills/hm-ibf-audit/`: Agent skill that classifies any source tree against the
   HM-IBF definition and reports deviations (`audit.py` scanner and CLI, `criteria.py` trait
   catalog, `model.py` dataclasses). Extend the catalog, not the scanner, when adding a trait.
+- `.claude/skills/hm-ibf-retarget/`: Agent skill that retargets the pipeline to another
+  optimization problem — a domain interview, a fit test, and the ordered edit surface with
+  live `file:line` anchors (`retarget.py` resolver and CLI, `sites.py` change-surface
+  catalog, `model.py` dataclasses). `--check` reports robotics assumptions that must not
+  survive a retarget. Extend the catalog, not the resolver, when the code surface moves;
+  every anchor is a single-line regex, so splitting an anchored signature across lines
+  unresolves its site.
 - `scripts/hm-ibf-entrypoint.sh`: Installed by `Dockerfile` as `hm-ibf` on `PATH` inside the `dev`/`dev-nix` images; builds the release binary if needed and always runs it from `hm-ibf-robo/`. For `train`/`pipeline`, re-execs itself through `nix develop` when `nix` is on `PATH` and it is not already inside a Nix shell.
 - `run.sh`, `run.bat`: Host entry point; builds/starts the container and forwards commands (interactive shell, verify, arbitrary commands, including `hm-ibf` itself). `run.bat` is the same thing for PowerShell/cmd, no Git Bash/WSL required; keep the two in sync.
 - `Cargo.toml`, `Cargo.lock`, `rustfmt.toml`: Rust workspace metadata and formatting.
@@ -174,6 +181,7 @@ Note: Prefer the existing tooling as configured; avoid duplicating dependency or
 - Tests first: Add/adjust tests for any new behaviour. Rust unit tests live inline in the file they cover; Rust integration tests live in `tests/` (per crate); Python unit tests live in `hm-ibf-robo/tests/unit/` and integration tests in `hm-ibf-robo/tests/integration/`.
 - CLI changes: Update `hm-ibf-robo/src/cli.rs`. Every subcommand shares the global flags on `Cli`; clap requires argument ids to be unique across flattened groups, and `cli::tests::the_command_definition_is_valid` catches violations.
 - Island set changes: adding, removing or reordering an entry of `islands::island_builders` shifts the node weight encoding and invalidates every stored `elitist_*.json`. Update the `ISLAND_*` constants, `training::initial_population` and `hm-ibf-robo/README.md` together with the list. Editing `dimensions_allowed` in `params_training.conf` is a similar break: a stored elitist's IRACE-tuned `dimension` categorical may no longer be in the new set, so retrain after changing it.
+- Problem changes: when the objective, the decision-variable encoding or the instance schema changes — and always when swapping in a different domain — work from `.claude/skills/hm-ibf-retarget/` rather than grepping. Two invariants dominate: the objective must read `solution.len()` (never `problem.dimension()`, which returns the *maximum* allowed dimension by contract), and a migration transform must return exactly `target_dim` elements. The transforms' `angles.rs` assumes `2*PI`-periodic variables; on a non-periodic domain it corrupts migrants silently.
 - Export schema: `hm-ibf-robo/src/robo/output.rs` writes schema `4`; bump `OUTPUT_EXPORT_SCHEMA_VERSION` when the payload changes.
 - Documentation: Update `README.md` for user-facing changes and this **Project Guide For Agents** section for agent-facing guidance. For the `hm-ibf-robo/` crate, also keep `hm-ibf-robo/README.md` and `hm-ibf-robo/runbook.md` current whenever preprocessing, training or evaluation behaviour changes.
 - Definition of done: inside the container, run `./run.sh verify` (or `scripts/verify.sh` directly). It runs `cargo fmt --check`, `cargo clippy -- -D warnings` and `cargo test` for every workspace crate, then `ruff check`, `ruff format --check` and the full `pytest` suite. Nothing is finished until all of these are green — not just the parts you touched.

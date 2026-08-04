@@ -18,9 +18,14 @@ instance's target points, so a solution keeps its meaning across island boundari
 
 ## Requirements
 
-[Docker Desktop](https://www.docker.com/products/docker-desktop/) (or another Docker
-engine) installed and running — that's the only host-side requirement. Everything else
-runs inside the container built from `Dockerfile`, never on the host.
+Docker engine and `git` — that's all you need on the host. Clone the repository first; from
+there on, everything runs inside the container built from `Dockerfile`, never on the
+host:
+
+```bash
+git clone https://github.com/Steigner/HM-IBF-ROBO.git
+cd HM-IBF-ROBO
+```
 
 macOS/Linux/Git Bash:
 
@@ -83,14 +88,22 @@ through `nix develop` automatically — no manual `nix develop --command …` ne
 `evaluate` works with either container, but needs a previously trained `robo_run/`
 (produced by `train`).
 
-Instance generation is Python and only needed to regenerate the checked-in instances. The
-source point cloud is fetched automatically from the upstream `Robotics-Benchmarking`
-repository unless `--source` points at an already-downloaded copy:
+Instance generation is Python and only needed to regenerate the checked-in instances
+(they're already committed under `hm-ibf-robo/instances/`, so this is optional). This one
+command does everything, including the download — no manual `git clone` needed:
 
 ```bash
 cd hm-ibf-robo
 python3 -m preprocessing.prepare_instances
 ```
+
+It automatically shallow-clones the upstream
+[`Robotics-Benchmarking`](https://github.com/JakubKudela89/Robotics-Benchmarking)
+repository — which holds the source point cloud, `Pos_pnts.mat` — into
+`hm-ibf-robo/external/robotics-benchmark/`, then generates the 40 instance JSON files
+from it. Later runs reuse that checkout instead of re-cloning. Pass
+`--source <path/to/Pos_pnts.mat>` to skip the download entirely, e.g. if you already have
+a local copy or have no network access.
 
 ## Smoke test
 
@@ -183,8 +196,25 @@ params_evaluation.conf  evaluate/pipeline algorithm tuning parameters (TOML)
 run.sh, run.bat          host entry point (shell, verify, arbitrary commands); .bat for PowerShell/cmd
 scripts/hm-ibf-entrypoint.sh   installed as `hm-ibf` on PATH inside the dev image
 scripts/verify.sh        the verification gate
-.claude/skills/          agent skills; `hm-ibf-audit` classifies a tree against HM-IBF
+.claude/skills/          agent skills; `hm-ibf-audit` classifies a tree against HM-IBF,
+                         `hm-ibf-retarget` maps the edits to swap in another problem
 ```
+
+## Using another problem
+
+The pipeline is generic over the problem type, so pointing it at a different optimization
+problem (a process profile, a control schedule, a design vector) is a bounded set of edits
+rather than a rewrite. The `hm-ibf-retarget` skill enumerates them and checks the result:
+
+```bash
+./run.sh python3 .claude/skills/hm-ibf-retarget/retarget.py .          # the edit surface
+./run.sh python3 .claude/skills/hm-ibf-retarget/retarget.py . --check  # after retargeting
+```
+
+The new domain needs a resolution-independent coordinate for its decision variables — the
+axis migrants are resampled along. Without one, islands at different dimensions cannot
+exchange anything meaningful and a fixed-dimension optimizer is the better tool; the skill's
+fit test covers this.
 
 ## Development
 
