@@ -1,6 +1,6 @@
 # HM-IBF-ROBO
 
-This repository presents an implementation of Homogenous Migration - Island Based Framework for the 6axis Robot Robotics Problem using the GRAHF framework's core. It serves as inspiration or a foundation for your own extensions to the variable-dimension problem. The SKILL hm-ibf-retarget is designed for these purposes.
+This repository presents an implementation of Heterogenous Migration - Island Based Framework for the 6axis Robot Robotics Problem using the GRAHF framework's core. It serves as inspiration or a foundation for your own extensions to the variable-dimension problem. The SKILL hm-ibf-retarget is designed for these purposes.
 
 In short: Hyper-heuristic design of heterogeneous island-model metaheuristics, applied to 6-DOF
 robot trajectory optimization.
