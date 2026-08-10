@@ -25,7 +25,7 @@ there on, everything runs inside the container built from `Dockerfile`, never on
 host:
 
 ```bash
-git clone https://anonymous.4open.science/r/HM-IBF-ROBO-8B4B
+git clone https://anonymous.4open.science/r/HM-IBF-ROBO
 cd HM-IBF-ROBO
 ```
 
