@@ -8,37 +8,37 @@ Execution is Docker-only. `./run.sh` (macOS/Linux/Git Bash) or `.\run.bat` (Powe
 
 ## Docs
 
-- [README](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/README.md): project overview, requirements, the three pipeline stages, end-to-end smoke test, repository layout, retargeting to another problem (~2k tokens)
-- [Benchmark design](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/hm-ibf-robo/README.md): the trajectory problem and objective function, island node-weight encoding, the heterogeneous migration transform, the verbatim best-individual export (~1k tokens)
-- [Runbook](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/hm-ibf-robo/runbook.md): operational detail per stage, the CLI flags with their defaults, tuning parameters, stage outputs, the transform catalog (~2k tokens)
-- [AGENTS.md](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/AGENTS.md): the contributor and coding-agent contract — Docker-only execution, Google-style doc comments, test layout, 500-line file limit, verification gate, plus a full project guide for agents (~6k tokens)
+- [README](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/README.md): project overview, requirements, the three pipeline stages, end-to-end smoke test, repository layout, retargeting to another problem (~2k tokens)
+- [Benchmark design](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/hm-ibf-robo/README.md): the trajectory problem and objective function, island node-weight encoding, the heterogeneous migration transform, the verbatim best-individual export (~1k tokens)
+- [Runbook](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/hm-ibf-robo/runbook.md): operational detail per stage, the CLI flags with their defaults, tuning parameters, stage outputs, the transform catalog (~2k tokens)
+- [AGENTS.md](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/AGENTS.md): the contributor and coding-agent contract — Docker-only execution, Google-style doc comments, test layout, 500-line file limit, verification gate, plus a full project guide for agents (~6k tokens)
 
 ## Configuration
 
-- [params_training.conf](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/params_training.conf): TOML tuning parameters of the `train`/`pipeline` stage, including `dimensions_allowed` and the shared `max_evaluations` budget
-- [params_evaluation.conf](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/params_evaluation.conf): TOML tuning parameters of the `evaluate`/`pipeline` stage
-- [Dockerfile](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/Dockerfile): the single sanctioned execution environment; multi-stage, non-root, `dev` and `dev-nix` targets
-- [flake.nix](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/flake.nix): Nix devshell providing R/IRACE for the training stage
-- [Cargo.toml](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/Cargo.toml): workspace manifest and Rust dependencies
-- [pyproject.toml](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/pyproject.toml): `ruff` and `pytest` configuration for the Python side
+- [params_training.conf](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/params_training.conf): TOML tuning parameters of the `train`/`pipeline` stage, including `dimensions_allowed` and the shared `max_evaluations` budget
+- [params_evaluation.conf](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/params_evaluation.conf): TOML tuning parameters of the `evaluate`/`pipeline` stage
+- [Dockerfile](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/Dockerfile): the single sanctioned execution environment; multi-stage, non-root, `dev` and `dev-nix` targets
+- [flake.nix](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/flake.nix): Nix devshell providing R/IRACE for the training stage
+- [Cargo.toml](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/Cargo.toml): workspace manifest and Rust dependencies
+- [pyproject.toml](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/pyproject.toml): `ruff` and `pytest` configuration for the Python side
 
 ## Source
 
-- [src/](https://github.com/Steigner/HM-IBF-ROBO/tree/main/src): the `grahf` framework — graph operators, island executor, migration transform trait, the algorithm-design problem and its IRACE tuning
-- [hm-ibf-robo/src/](https://github.com/Steigner/HM-IBF-ROBO/tree/main/hm-ibf-robo/src): the `grahf-robo` library and `hm-ibf-robo` binary — CLI, config loading, training, evaluation, the trajectory problem and its evaluator, island and migration builders, the dimension transforms
-- [hm-ibf-robo/preprocessing/](https://github.com/Steigner/HM-IBF-ROBO/tree/main/hm-ibf-robo/preprocessing): the Python instance generator — deterministic point selection from the upstream `Pos_pnts.mat` point cloud, mirroring `EvoApps2023/main.m`, plus the on-demand shallow clone that fetches it
-- [hm-ibf-robo/instances/](https://github.com/Steigner/HM-IBF-ROBO/tree/main/hm-ibf-robo/instances): the 40 checked-in benchmark instances — `nr_points in {3, 4, 5, 6}` times ten instance seeds — plus their `summary.json`
-- [scripts/](https://github.com/Steigner/HM-IBF-ROBO/tree/main/scripts): the in-container `hm-ibf` shim and the verification gate
+- [src/](https://github.com/anonymous.4open.science/HM-IBF-ROBO/tree/main/src): the `grahf` framework — graph operators, island executor, migration transform trait, the algorithm-design problem and its IRACE tuning
+- [hm-ibf-robo/src/](https://github.com/anonymous.4open.science/HM-IBF-ROBO/tree/main/hm-ibf-robo/src): the `grahf-robo` library and `hm-ibf-robo` binary — CLI, config loading, training, evaluation, the trajectory problem and its evaluator, island and migration builders, the dimension transforms
+- [hm-ibf-robo/preprocessing/](https://github.com/anonymous.4open.science/HM-IBF-ROBO/tree/main/hm-ibf-robo/preprocessing): the Python instance generator — deterministic point selection from the upstream `Pos_pnts.mat` point cloud, mirroring `EvoApps2023/main.m`, plus the on-demand shallow clone that fetches it
+- [hm-ibf-robo/instances/](https://github.com/anonymous.4open.science/HM-IBF-ROBO/tree/main/hm-ibf-robo/instances): the 40 checked-in benchmark instances — `nr_points in {3, 4, 5, 6}` times ten instance seeds — plus their `summary.json`
+- [scripts/](https://github.com/anonymous.4open.science/HM-IBF-ROBO/tree/main/scripts): the in-container `hm-ibf` shim and the verification gate
 
 ## Agent skills
 
-- [hm-ibf-audit](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/.claude/skills/hm-ibf-audit/SKILL.md): classifies any source tree against the HM-IBF definition and reports where it deviates (~2k tokens)
-- [hm-ibf-retarget](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/.claude/skills/hm-ibf-retarget/SKILL.md): the ordered edit surface for swapping in another optimization problem, with a domain fit test and a `--check` pass for leftover robotics assumptions (~3k tokens)
+- [hm-ibf-audit](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/.claude/skills/hm-ibf-audit/SKILL.md): classifies any source tree against the HM-IBF definition and reports where it deviates (~2k tokens)
+- [hm-ibf-retarget](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/.claude/skills/hm-ibf-retarget/SKILL.md): the ordered edit surface for swapping in another optimization problem, with a domain fit test and a `--check` pass for leftover robotics assumptions (~3k tokens)
 
 ## Optional
 
-- [LICENSE](https://raw.githubusercontent.com/Steigner/HM-IBF-ROBO/main/LICENSE): GNU General Public License v3.0 or later, full text
-- [Tests](https://github.com/Steigner/HM-IBF-ROBO/tree/main/hm-ibf-robo/tests): the Rust pipeline integration tests and the pytest suite for the preprocessing package
+- [LICENSE](https://raw.githubusercontent.com/anonymous.4open.science/HM-IBF-ROBO/main/LICENSE): GNU General Public License v3.0 or later, full text
+- [Tests](https://github.com/anonymous.4open.science/HM-IBF-ROBO/tree/main/hm-ibf-robo/tests): the Rust pipeline integration tests and the pytest suite for the preprocessing package
 - [Robotics-Benchmarking](https://github.com/JakubKudela89/Robotics-Benchmarking): upstream repository supplying `Pos_pnts.mat` and the MATLAB point-selection reference
 - [MAHF](https://github.com/mahf-opt/mahf): the metaheuristics framework `grahf` builds on
 - [irace-rs](https://github.com/Saethox/irace-rs): the Rust bindings to IRACE used for parameter tuning
